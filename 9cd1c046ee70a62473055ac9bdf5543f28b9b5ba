@@ -1,0 +1,24 @@
+t5/fibanocci.py
+  6550ebf636e0ca3a 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "9cd1c046ee70a62473055ac9bdf5543f28b9b5ba",
+  "prompts": {
+    "6550ebf636e0ca3a": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "00b98ecc-0a0f-428f-bb57-61f752554b3a",
+        "model": "default"
+      },
+      "human_author": "Yogananda",
+      "messages": [],
+      "total_additions": 31,
+      "total_deletions": 0,
+      "accepted_lines": 31,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/678c92930e33e0274026df1e44f619a2418d14c60a9cb6222eeaec51038380d1"
+    }
+  }
+}
