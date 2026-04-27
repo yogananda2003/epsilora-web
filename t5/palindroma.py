@@ -16,7 +16,7 @@ def main() -> None:
     if is_palindrome(user_input):
         print(f'"{user_input}" is a palindrome.')
     else:
-        print(f'"{user_input}" is not a palindrome.')
+        print(f'"{user_input}" is not a palindme.')
 
 
 if __name__ == "__main__":
