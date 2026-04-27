@@ -1,0 +1,24 @@
+t5/palindroma.py
+  6550ebf636e0ca3a 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.0",
+  "base_commit_sha": "2b330be363f178ebb3bfc6c62097795152e737a7",
+  "prompts": {
+    "6550ebf636e0ca3a": {
+      "agent_id": {
+        "tool": "cursor",
+        "id": "00b98ecc-0a0f-428f-bb57-61f752554b3a",
+        "model": "default"
+      },
+      "human_author": "Yogananda",
+      "messages": [],
+      "total_additions": 23,
+      "total_deletions": 0,
+      "accepted_lines": 23,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/9c15e0bb556d21e21fdbc6c29a7aabd4e1f3ff23cb9a9ad7c1af0fa9fca27d12"
+    }
+  }
+}
