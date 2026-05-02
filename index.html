@@ -3,12 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Epsilora | Intelligence Systems Report</title>
+    <title>Epsilora | Intelligence Systems</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Epsilora architects autonomous digital growth engines through intelligent web infrastructure, AI agents, and workflow automation for modern enterprise.">
+    <meta name="keywords" content="Epsilora, AI solutions, web development, automation, digital systems, AI agents, chatbots, workflow automation, enterprise software, NextJS, TypeScript, edge computing, machine learning, intelligent systems, custom software, AI chatbot, business automation, web infrastructure, autonomous agents, document AI, fintech AI, headless ecommerce, cloud infrastructure, bespoke engineering">
+    <meta name="author" content="Epsilora">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Epsilora | Intelligence Systems">
+    <meta property="og:description" content="Engineering autonomous digital growth engines through AI, web infrastructure, and smart automation.">
+    <meta property="og:site_name" content="Epsilora">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Epsilora | Intelligence Systems">
+    <meta name="twitter:description" content="Engineering autonomous digital growth engines through AI, web infrastructure, and smart automation.">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --brand-green: #010806;
@@ -26,18 +45,59 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* ── Loading Screen ── */
+        #loading-screen {
+            transition: opacity 0.7s ease, visibility 0.7s ease;
+        }
+        #loading-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .loading-bar-track {
+            width: 200px;
+            height: 1px;
+            background: rgba(16, 185, 129, 0.15);
+            border-radius: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .loading-bar-fill {
+            position: absolute;
+            top: 0; left: 0;
+            height: 100%;
+            width: 0;
+            background: #10b981;
+            animation: fillBar 1.6s var(--ease-out-expo) forwards;
+        }
+        @keyframes fillBar {
+            0%   { width: 0%; }
+            100% { width: 100%; }
+        }
+        .loading-dot {
+            width: 4px;
+            height: 4px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: dotPulse 1.2s ease-in-out infinite;
+        }
+        @keyframes dotPulse {
+            0%, 80%, 100% { opacity: 0.2; transform: scale(1); }
+            40%           { opacity: 1;   transform: scale(1.4); }
+        }
+
+        /* ── Background ── */
         .tech-grid {
             position: fixed;
             inset: 0;
             z-index: -1;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
             -webkit-mask-image: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), black 0%, transparent 80%);
             mask-image: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), black 0%, transparent 80%);
         }
-
         .texture-overlay {
             position: fixed;
             inset: 0;
@@ -58,13 +118,31 @@
             transform: translateY(20px);
             transition: all 0.8s var(--ease-out-expo);
         }
-
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* 3D Carousel Engine */
+        /* ── Mobile nav hamburger ── */
+        .hamburger-line {
+            display: block;
+            width: 22px;
+            height: 1.5px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+        #mobile-menu-btn.open .hamburger-line:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+        #mobile-menu-btn.open .hamburger-line:nth-child(2) { opacity: 0; transform: scaleX(0); }
+        #mobile-menu-btn.open .hamburger-line:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s var(--ease-out-expo);
+        }
+        #mobile-menu.open { max-height: 320px; }
+
+        /* ── 3D Carousel ── */
         .carousel-perspective {
             perspective: 1200px;
             height: 550px;
@@ -89,20 +167,31 @@
             user-select: none;
         }
 
-        .card-active { z-index: 10; transform: translate3d(0, 0, 0); opacity: 1; box-shadow: 0 0 40px rgba(16, 185, 129, 0.2); border-color: var(--brand-accent); }
-        .card-prev { z-index: 5; transform: translate3d(-240px, 0, -150px) rotateY(45deg); opacity: 0.4; pointer-events: none; }
-        .card-next { z-index: 5; transform: translate3d(240px, 0, -150px) rotateY(-45deg); opacity: 0.4; pointer-events: none; }
-        .card-far-prev { z-index: 1; transform: translate3d(-400px, 0, -300px) rotateY(60deg); opacity: 0.1; }
-        .card-far-next { z-index: 1; transform: translate3d(400px, 0, -300px) rotateY(-60deg); opacity: 0.1; }
-        .card-hidden { transform: translate3d(0, 0, -500px); opacity: 0; pointer-events: none; }
+        .card-active   { z-index: 10; transform: translate3d(0,0,0);                           opacity: 1;   box-shadow: 0 0 40px rgba(16,185,129,0.2); border-color: var(--brand-accent); }
+        .card-prev     { z-index: 5;  transform: translate3d(-240px,0,-150px) rotateY(45deg);  opacity: 0.4; pointer-events: none; }
+        .card-next     { z-index: 5;  transform: translate3d(240px,0,-150px)  rotateY(-45deg); opacity: 0.4; pointer-events: none; }
+        .card-far-prev { z-index: 1;  transform: translate3d(-400px,0,-300px) rotateY(60deg);  opacity: 0.1; }
+        .card-far-next { z-index: 1;  transform: translate3d(400px,0,-300px)  rotateY(-60deg); opacity: 0.1; }
+        .card-hidden   { transform: translate3d(0,0,-500px); opacity: 0; pointer-events: none; }
+
+        /* Smaller carousel on mobile */
+        @media (max-width: 639px) {
+            .carousel-perspective { height: 440px; }
+            .project-card { width: 230px; height: 360px; }
+            .card-content { padding: 1.5rem; }
+            .card-prev     { transform: translate3d(-145px,0,-120px) rotateY(45deg); }
+            .card-next     { transform: translate3d(145px,0,-120px)  rotateY(-45deg); }
+            .card-far-prev { transform: translate3d(-250px,0,-250px) rotateY(60deg); opacity: 0.05; }
+            .card-far-next { transform: translate3d(250px,0,-250px)  rotateY(-60deg); opacity: 0.05; }
+        }
 
         .card-content { flex: 1; padding: 2.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .card-footer { height: 60px; width: 100%; background: linear-gradient(90deg, var(--brand-green) 0%, #0d5c48 100%); display: flex; align-items: center; justify-content: center; border-top: 1px solid rgba(255,255,255,0.05); }
-        .card-avatar { width: 80px; height: 80px; border-radius: 50%; background: #031410; border: 2px solid var(--brand-accent); margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .card-footer  { height: 60px; width: 100%; background: linear-gradient(90deg, var(--brand-green) 0%, #0d5c48 100%); display: flex; align-items: center; justify-content: center; border-top: 1px solid rgba(255,255,255,0.05); }
+        .card-avatar  { width: 70px; height: 70px; border-radius: 50%; background: #031410; border: 2px solid var(--brand-accent); margin-bottom: 1.2rem; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 
         .nav-active { color: var(--brand-accent); border-bottom: 2px solid var(--brand-accent); }
 
-        /* Core Architecture specific styles */
+        /* ── Architecture cards ── */
         .arch-card {
             border: 1px solid rgba(255, 255, 255, 0.05);
             background: rgba(255, 255, 255, 0.01);
@@ -126,7 +215,7 @@
         }
         .arch-card:hover::before { transform: translateX(100%); }
 
-        /* Contact Section Specifics */
+        /* ── Contact ── */
         .input-glow:focus {
             outline: none;
             border-color: var(--brand-accent);
@@ -138,132 +227,132 @@
             animation: shimmer 1.5s infinite linear;
         }
         @keyframes shimmer {
-            0% { background-position: 200% 0; }
+            0%   { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
+
+        /* ── WhatsApp float ── */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(-10px); }
+        }
+        .wa-float { animation: float 4s ease-in-out infinite; }
     </style>
 </head>
 <body class="selection:bg-emerald-500 selection:text-black">
 
+    <!-- ══ Loading Screen ══ -->
+    <div id="loading-screen" class="fixed inset-0 z-[99999] bg-[#010806] flex flex-col items-center justify-center gap-4">
+        <p class="text-[9px] font-mono text-emerald-500/40 uppercase tracking-[0.6em]">Initializing System</p>
+        <span class="text-3xl sm:text-4xl font-black tracking-tighter text-emerald-500 italic">EPSILORA</span>
+        <div class="loading-bar-track mt-2">
+            <div class="loading-bar-fill"></div>
+        </div>
+        <div class="flex gap-2">
+            <div class="loading-dot" style="animation-delay:0s"></div>
+            <div class="loading-dot" style="animation-delay:0.2s"></div>
+            <div class="loading-dot" style="animation-delay:0.4s"></div>
+        </div>
+    </div>
+
     <div class="texture-overlay"></div>
     <div class="tech-grid"></div>
 
-    <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-white/5 px-6 py-4">
+    <!-- ══ Navigation ══ -->
+    <nav class="fixed top-0 left-0 w-full z-50 glass border-b border-white/5 px-4 sm:px-6 py-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <span class="text-xl font-black tracking-tighter text-emerald-500 italic">EPSILORA</span>
-            
-            </div>
+            <span class="text-xl font-black tracking-tighter text-emerald-500 italic">EPSILORA</span>
+
+            <!-- Desktop links -->
             <div class="hidden md:flex gap-8 text-[10px] font-bold tracking-[0.2em] uppercase">
-                <a href="#summary" class="nav-link hover:text-emerald-400 transition-colors">Summary</a>
-                <a href="#analysis" class="nav-link hover:text-emerald-400 transition-colors">Analysis</a>
+                <a href="#summary"   class="nav-link hover:text-emerald-400 transition-colors">Summary</a>
+                <a href="#analysis"  class="nav-link hover:text-emerald-400 transition-colors">Analysis</a>
                 <a href="#portfolio" class="nav-link hover:text-emerald-400 transition-colors">Portfolio</a>
-                <a href="#services" class="nav-link hover:text-emerald-400 transition-colors">Architecture</a>
-                <a href="#contact" class="nav-link hover:text-emerald-400 transition-colors">Contact</a>
+                <a href="#services"  class="nav-link hover:text-emerald-400 transition-colors">Architecture</a>
+                <a href="#contact"   class="nav-link hover:text-emerald-400 transition-colors">Contact</a>
             </div>
-            
+
+            <!-- Hamburger button -->
+            <button id="mobile-menu-btn" class="md:hidden flex flex-col gap-[5px] p-2 -mr-2" aria-label="Toggle menu">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+
+        <!-- Mobile dropdown -->
+        <div id="mobile-menu" class="md:hidden">
+            <div class="flex flex-col items-center gap-5 py-6 text-[10px] font-bold tracking-[0.2em] uppercase border-t border-white/5 mt-3">
+                <a href="#summary"   class="mobile-nav-link hover:text-emerald-400 transition-colors">Summary</a>
+                <a href="#analysis"  class="mobile-nav-link hover:text-emerald-400 transition-colors">Analysis</a>
+                <a href="#portfolio" class="mobile-nav-link hover:text-emerald-400 transition-colors">Portfolio</a>
+                <a href="#services"  class="mobile-nav-link hover:text-emerald-400 transition-colors">Architecture</a>
+                <a href="#contact"   class="mobile-nav-link hover:text-emerald-400 transition-colors">Contact</a>
+            </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pt-32 pb-20">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-16 sm:pb-20">
 
-        <!-- Section 1: Hero -->
-        <section id="summary" class="min-h-[70vh] flex flex-col justify-center reveal">
+        <!-- ── Section 1: Hero ── -->
+        <section id="summary" class="min-h-[80vh] flex flex-col justify-center reveal">
             <p class="text-emerald-500 font-mono text-xs tracking-[0.5em] mb-6 uppercase">EPSILORA</p>
-            <h1 class="text-6xl md:text-8xl font-black mb-8 leading-[0.9] tracking-tighter">
+            <h1 class="text-4xl sm:text-6xl md:text-8xl font-black mb-6 sm:mb-8 leading-[0.9] tracking-tighter">
                 ENGINEERING.<br>INTELLIGENT.<br>DIGITAL SYSTEMS.
             </h1>
-            <p class="max-w-2xl text-xl opacity-50 font-light leading-relaxed mb-10">
+            <p class="max-w-2xl text-base sm:text-xl opacity-50 font-light leading-relaxed mb-8 sm:mb-10">
                 Building the digital backbone for modern enterprise. We combine high-performance web infrastructure, autonomous AI agents, and fluid workflow automation to drive scale.
             </p>
-            <div class="flex gap-4">
-                <a href="#contact" class="bg-emerald-500 text-black px-10 py-5 rounded font-bold text-xs tracking-widest uppercase hover:scale-105 transition-transform inline-block">Initiate Contact</a>
+            <div class="flex flex-wrap gap-4">
+                <a href="#contact" class="bg-emerald-500 text-black px-8 sm:px-10 py-4 sm:py-5 rounded font-bold text-xs tracking-widest uppercase hover:scale-105 transition-transform inline-block">Initiate Contact</a>
             </div>
         </section>
 
-
-
-
-<a href="https://wa.me/+918123016346" 
-   target="_blank" 
-   rel="noopener noreferrer" 
-   class="fixed bottom-8 right-8 z-[100] group"
-   aria-label="Contact via WhatsApp">
-    
-    <div class="absolute inset-0 bg-emerald-500/20 rounded-full animate-ping group-hover:animate-none"></div>
-    
-    <div class="relative w-16 h-16 bg-[#031410] border border-emerald-500/30 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.2)] backdrop-blur-md hover:border-emerald-500 hover:scale-110 transition-all duration-300">
-        
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-        </svg>
-
-        <div class="absolute right-20 bg-emerald-500 text-black text-[10px] font-bold font-mono px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap tracking-widest uppercase pointer-events-none">
-            Establish_Link
-        </div>
-    </div>
-</a>
-
-<style>
-    /* Optional: Slight bobbing animation for the button */
-    @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-10px); }
-    }
-    .group {
-        animation: float 4s ease-in-out infinite;
-    }
-</style>
-
-
-
-
-
-        <!-- Section 2: Portfolio (Coverflow) -->
-        <section id="portfolio" class="py-32 reveal overflow-visible">
-            <div class="text-center mb-16">
+        <!-- ── Section 2: Portfolio (Coverflow) ── -->
+        <section id="portfolio" class="py-16 sm:py-32 reveal overflow-visible">
+            <div class="text-center mb-12 sm:mb-16">
                 <h2 class="text-xs font-mono text-emerald-500 uppercase tracking-[0.5em] mb-6">01_Execution_Record</h2>
-                <h3 class="text-5xl font-extrabold mb-4 uppercase">INTELLECTUAL. PROPERTY.</h3>
+                <h3 class="text-3xl sm:text-5xl font-extrabold mb-4 uppercase">INTELLECTUAL. PROPERTY.</h3>
                 <p class="opacity-50 text-sm font-light max-w-xl mx-auto">Click through our archive of high-performance digital systems.</p>
             </div>
 
             <div class="carousel-perspective" id="portfolio-carousel"></div>
 
-            <div class="flex justify-center gap-12 mt-8">
-                <button id="prevBtn" class="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-emerald-500 hover:text-black transition-all group">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            <div class="flex justify-center gap-8 sm:gap-12 mt-8">
+                <button id="prevBtn" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-emerald-500 hover:text-black transition-all">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
-                <button id="nextBtn" class="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-emerald-500 hover:text-black transition-all group">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+                <button id="nextBtn" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-emerald-500 hover:text-black transition-all">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
             </div>
         </section>
 
-        <!-- Section 3: Quantitative ROI -->
-        <section id="analysis" class="py-32 reveal">
-            <div class="max-w-3xl mb-16">
+        <!-- ── Section 3: Quantitative ROI ── -->
+        <section id="analysis" class="py-16 sm:py-32 reveal">
+            <div class="max-w-3xl mb-12 sm:mb-16">
                 <h2 class="text-xs font-mono text-emerald-500 uppercase tracking-[0.5em] mb-6">02_Performance_Analysis</h2>
-                <p class="text-4xl font-extrabold mb-6 uppercase leading-tight">Quantifying The<br>Efficiency Gap.</p>
+                <p class="text-3xl sm:text-4xl font-extrabold mb-6 uppercase leading-tight">Quantifying The<br>Efficiency Gap.</p>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div class="lg:col-span-7 glass p-8 rounded-2xl border-emerald-500/10">
-                    <div class="chart-container" style="height: 300px;">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
+                <div class="lg:col-span-7 glass p-5 sm:p-8 rounded-2xl border-emerald-500/10">
+                    <div style="height: 280px; position: relative;">
                         <canvas id="roiChart"></canvas>
                     </div>
                 </div>
-                <div class="lg:col-span-5 space-y-6">
-                    <div class="p-8 border border-emerald-500/20 bg-emerald-500/5 rounded-xl">
+                <div class="lg:col-span-5 space-y-5 sm:space-y-6">
+                    <div class="p-6 sm:p-8 border border-emerald-500/20 bg-emerald-500/5 rounded-xl">
                         <div class="text-[9px] font-mono text-emerald-500 mb-4 tracking-[0.3em] uppercase">SYSTEM_LOG // ANALYSIS</div>
                         <p class="text-sm opacity-70 italic leading-relaxed">"Automation results in an average 74% reduction in manual operational overhead within the first 60 days of deployment."</p>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="glass p-6 rounded-xl text-center">
-                            <span class="block text-3xl font-black text-emerald-500">40h+</span>
+                        <div class="glass p-4 sm:p-6 rounded-xl text-center">
+                            <span class="block text-2xl sm:text-3xl font-black text-emerald-500">40h+</span>
                             <span class="text-[9px] uppercase opacity-40 font-bold tracking-widest mt-2 block">Saved Weekly</span>
                         </div>
-                        <div class="glass p-6 rounded-xl text-center">
-                            <span class="block text-3xl font-black text-emerald-500">3.5x</span>
+                        <div class="glass p-4 sm:p-6 rounded-xl text-center">
+                            <span class="block text-2xl sm:text-3xl font-black text-emerald-500">3.5x</span>
                             <span class="text-[9px] uppercase opacity-40 font-bold tracking-widest mt-2 block">Scaling Speed</span>
                         </div>
                     </div>
@@ -271,45 +360,45 @@
             </div>
         </section>
 
-        <!-- Section 4: Proper Core Architecture -->
-        <section id="services" class="py-32 reveal">
-            <div class="mb-20">
+        <!-- ── Section 4: Core Architecture ── -->
+        <section id="services" class="py-16 sm:py-32 reveal">
+            <div class="mb-12 sm:mb-20">
                 <h2 class="text-xs font-mono text-emerald-500 uppercase tracking-[0.5em] mb-6">03_Core_Architecture</h2>
-                <h3 class="text-5xl font-extrabold uppercase leading-none mb-8">System<br>Capabilities.</h3>
+                <h3 class="text-3xl sm:text-5xl font-extrabold uppercase leading-none mb-6 sm:mb-8">System<br>Capabilities.</h3>
                 <p class="max-w-xl opacity-40 text-sm leading-relaxed">We architect technical environments that transform business bottlenecks into autonomous growth engines.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                <div class="md:col-span-8 arch-card p-12 rounded-3xl group">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
+                <div class="md:col-span-8 arch-card p-8 sm:p-12 rounded-3xl group">
                     <div class="flex flex-col h-full justify-between">
                         <div>
-                            <div class="text-[10px] font-mono text-emerald-500 mb-8 uppercase tracking-[0.4em]">0x01 // WEB_SYSTEMS</div>
-                            <h4 class="text-4xl font-bold mb-6 group-hover:text-emerald-400 transition-colors uppercase italic tracking-tighter">Advanced Web Infrastructure</h4>
-                            <p class="text-lg opacity-40 font-light max-w-lg leading-snug">We design and develop modern, responsive websites tailored to your business goals. From landing pages to full-scale business platforms, we ensure performance, usability, and infinite scalability.</p>
+                            <div class="text-[10px] font-mono text-emerald-500 mb-6 sm:mb-8 uppercase tracking-[0.4em]">0x01 // WEB_SYSTEMS</div>
+                            <h4 class="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6 group-hover:text-emerald-400 transition-colors uppercase italic tracking-tighter">Advanced Web Infrastructure</h4>
+                            <p class="text-base sm:text-lg opacity-40 font-light max-w-lg leading-snug">We design and develop modern, responsive websites tailored to your business goals. From landing pages to full-scale business platforms, we ensure performance, usability, and infinite scalability.</p>
                         </div>
-                        <div class="mt-12 flex gap-4 text-[9px] font-mono opacity-30">
+                        <div class="mt-8 sm:mt-12 flex flex-wrap gap-3 sm:gap-4 text-[9px] font-mono opacity-30">
                             <span>#NEXTJS</span> <span>#TYPESCRIPT</span> <span>#EDGE_COMPUTING</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="md:col-span-4 arch-card p-10 rounded-3xl flex flex-col justify-between">
+                <div class="md:col-span-4 arch-card p-8 sm:p-10 rounded-3xl flex flex-col justify-between">
                     <div>
-                        <div class="text-[10px] font-mono text-emerald-500 mb-8 uppercase tracking-[0.4em]">0x02 // AI_LOGIC</div>
-                        <h4 class="text-2xl font-bold mb-6 uppercase tracking-tight">AI Solutions</h4>
+                        <div class="text-[10px] font-mono text-emerald-500 mb-6 sm:mb-8 uppercase tracking-[0.4em]">0x02 // AI_LOGIC</div>
+                        <h4 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 uppercase tracking-tight">AI Solutions</h4>
                         <p class="text-sm opacity-40 font-light leading-relaxed">Building AI-powered tools including chatbots, autonomous agents, and document-based assistants that streamline customer interactions.</p>
                     </div>
                     <div class="mt-8">
-                        <div class="w-12 h-12 rounded border border-emerald-500/20 flex items-center justify-center group-hover:bg-emerald-500 transition-all">
+                        <div class="w-12 h-12 rounded border border-emerald-500/20 flex items-center justify-center hover:bg-emerald-500 transition-all">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 12L2.7 7.3"/><path d="M12 12V22"/><path d="M12 12l9.3-4.7"/></svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="md:col-span-4 arch-card p-10 rounded-3xl flex flex-col justify-between">
+                <div class="md:col-span-4 arch-card p-8 sm:p-10 rounded-3xl flex flex-col justify-between">
                     <div>
-                        <div class="text-[10px] font-mono text-emerald-500 mb-8 uppercase tracking-[0.4em]">0x03 // AUTOMATION</div>
-                        <h4 class="text-2xl font-bold mb-6 uppercase tracking-tight">Automation</h4>
+                        <div class="text-[10px] font-mono text-emerald-500 mb-6 sm:mb-8 uppercase tracking-[0.4em]">0x03 // AUTOMATION</div>
+                        <h4 class="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 uppercase tracking-tight">Automation</h4>
                         <p class="text-sm opacity-40 font-light leading-relaxed">Smart systems designed to reduce repetitive manual labor. From complex lead handling to cross-platform workflow orchestration.</p>
                     </div>
                     <div class="mt-8 flex gap-2">
@@ -319,39 +408,37 @@
                     </div>
                 </div>
 
-                <div class="md:col-span-8 arch-card p-12 rounded-3xl group">
-                    <div class="flex flex-col md:flex-row gap-12 items-center">
+                <div class="md:col-span-8 arch-card p-8 sm:p-12 rounded-3xl group">
+                    <div class="flex flex-col sm:flex-row gap-8 sm:gap-12 items-center">
                         <div class="flex-1">
-                            <div class="text-[10px] font-mono text-emerald-500 mb-6 uppercase tracking-[0.4em]">0x04 // CUSTOM_SYSTEMS</div>
-                            <h4 class="text-3xl font-bold mb-4 uppercase tracking-tighter">Bespoke Engineering</h4>
+                            <div class="text-[10px] font-mono text-emerald-500 mb-4 sm:mb-6 uppercase tracking-[0.4em]">0x04 // CUSTOM_SYSTEMS</div>
+                            <h4 class="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4 uppercase tracking-tighter">Bespoke Engineering</h4>
                             <p class="text-sm opacity-40 font-light leading-relaxed">Developing custom digital systems tailored to non-standard business requirements, helping you scale with the right proprietary technology.</p>
                         </div>
-                        <div class="w-full md:w-1/3 aspect-video bg-emerald-500/5 rounded-2xl border border-emerald-500/10 flex items-center justify-center">
-                             <span class="text-[10px] font-mono opacity-20 tracking-widest">ENCRYPTED_SRC</span>
+                        <div class="w-full sm:w-1/3 aspect-video bg-emerald-500/5 rounded-2xl border border-emerald-500/10 flex items-center justify-center">
+                            <span class="text-[10px] font-mono opacity-20 tracking-widest">ENCRYPTED_SRC</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- NEW Section 5: Transmission Protocol (Contact) -->
-
-
-<section id="contact" class="py-32 reveal">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <!-- ── Section 5: Contact ── -->
+        <section id="contact" class="py-16 sm:py-32 reveal">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20">
                 <div>
                     <h2 class="text-xs font-mono text-emerald-500 uppercase tracking-[0.5em] mb-6">04_Transmission_Protocol</h2>
-                    <h3 class="text-6xl font-black uppercase leading-none mb-8 tracking-tighter">INITIATE<br>CONNECTION.</h3>
-                    <p class="max-w-md opacity-40 text-lg leading-relaxed mb-12">
+                    <h3 class="text-4xl sm:text-6xl font-black uppercase leading-none mb-6 sm:mb-8 tracking-tighter">INITIATE<br>CONNECTION.</h3>
+                    <p class="max-w-md opacity-40 text-base sm:text-lg leading-relaxed mb-12">
                         Submit your technical requirements. Our system will route your packet directly to an engineering lead.
                     </p>
                 </div>
 
                 <div class="relative">
-                    <div id="form-container" class="glass p-10 rounded-3xl border-emerald-500/10 relative overflow-hidden transition-all duration-500">
-                        
+                    <div id="form-container" class="glass p-6 sm:p-10 rounded-3xl border-emerald-500/10 relative overflow-hidden transition-all duration-500">
+
                         <!-- Success Overlay -->
-                        <div id="success-message" class="absolute inset-0 z-20 bg-emerald-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-10 text-center scale-95 opacity-0 pointer-events-none transition-all duration-500">
+                        <div id="success-message" class="absolute inset-0 z-20 bg-emerald-950/95 backdrop-blur-xl flex flex-col items-center justify-center p-8 sm:p-10 text-center scale-95 opacity-0 pointer-events-none transition-all duration-500">
                             <div class="w-16 h-16 rounded-full bg-emerald-500 flex items-center justify-center mb-6">
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
                             </div>
@@ -360,9 +447,8 @@
                             <button onclick="resetForm()" class="mt-8 text-[10px] font-mono text-emerald-500 uppercase tracking-widest border border-emerald-500/30 px-6 py-2 rounded hover:bg-emerald-500/10 transition-colors">Submit New Packet</button>
                         </div>
 
-                        <!-- Formspree Endpoint Updated: xqegzrae -->
-                        <form id="contact-form" action="https://formspree.io/f/xpqowzbg" method="POST" class="space-y-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <form id="contact-form" action="https://formspree.io/f/xpqowzbg" method="POST" class="space-y-5 sm:space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
                                 <div class="space-y-2">
                                     <label class="text-[9px] font-mono text-emerald-500 uppercase tracking-widest ml-1">Identity_Name</label>
                                     <input name="name" required type="text" placeholder="SUBJECT_NAME" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-sm font-mono input-glow transition-all">
@@ -380,9 +466,9 @@
                                 <label class="text-[9px] font-mono text-emerald-500 uppercase tracking-widest ml-1">Log_Message</label>
                                 <textarea name="message" required rows="4" placeholder="Detail the technical requirements..." class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-4 text-sm font-light input-glow transition-all resize-none"></textarea>
                             </div>
-                            
-                            <button type="submit" id="submit-btn" class="w-full bg-emerald-500 text-black py-5 rounded-xl font-black text-xs tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-3 overflow-hidden group">
-                                <span id="btn-text" class="relative z-10">Execute Transmission</span>
+
+                            <button type="submit" id="submit-btn" class="w-full bg-emerald-500 text-black py-5 rounded-xl font-black text-xs tracking-[0.3em] uppercase transition-all flex items-center justify-center gap-3 overflow-hidden">
+                                <span id="btn-text">Execute Transmission</span>
                                 <div id="btn-loader" class="hidden w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin"></div>
                             </button>
                         </form>
@@ -391,15 +477,12 @@
             </div>
         </section>
 
-
-
-
     </main>
 
-        <!-- NEW: Comprehensive Footer -->
-    <footer class="border-t border-white/5 pt-20 pb-10 px-6 mt-20 relative z-10">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            <div class="col-span-1 md:col-span-2">
+    <!-- ══ Footer ══ -->
+    <footer class="border-t border-white/5 pt-16 sm:pt-20 pb-10 px-4 sm:px-6 mt-10 sm:mt-20 relative z-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 sm:gap-12 mb-12 sm:mb-16">
+            <div class="sm:col-span-2">
                 <span class="text-2xl font-black tracking-tighter text-emerald-500 italic mb-6 block">EPSILORA</span>
                 <p class="opacity-40 text-sm max-w-sm leading-relaxed mb-8">
                     Architecting autonomous growth engines through intelligent digital infrastructure and bespoke engineering. We transform business bottlenecks into technical assets.
@@ -416,10 +499,10 @@
             <div>
                 <h4 class="text-[10px] font-mono text-emerald-500 uppercase tracking-widest mb-6 underline underline-offset-8 decoration-emerald-500/20">Directory</h4>
                 <ul class="space-y-4 text-xs opacity-40 font-medium">
-                    <li><a href="#summary" class="hover:text-emerald-400 transition-colors">Summary</a></li>
-                    <li><a href="#analysis" class="hover:text-emerald-400 transition-colors">Performance_Analysis</a></li>
+                    <li><a href="#summary"   class="hover:text-emerald-400 transition-colors">Summary</a></li>
+                    <li><a href="#analysis"  class="hover:text-emerald-400 transition-colors">Performance_Analysis</a></li>
                     <li><a href="#portfolio" class="hover:text-emerald-400 transition-colors">Execution_Record</a></li>
-                    <li><a href="#contact" class="hover:text-emerald-400 transition-colors">Contact_Handshake</a></li>
+                    <li><a href="#contact"   class="hover:text-emerald-400 transition-colors">Contact_Handshake</a></li>
                 </ul>
             </div>
             <div>
@@ -439,43 +522,76 @@
                 </div>
             </div>
         </div>
-        <div class="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-center sm:text-left">
             <p class="text-[10px] font-mono opacity-20 uppercase tracking-widest">© 2024 Epsilora Systems // All Rights Reserved</p>
             <p class="text-[10px] font-mono opacity-20 uppercase tracking-widest italic tracking-tighter">Transmission Secured via End-to-End Encryption</p>
         </div>
     </footer>
 
+    <!-- ══ WhatsApp Float Button ══ -->
+    <a href="https://wa.me/+918123016346"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="fixed bottom-6 right-6 z-[100] group wa-float"
+       aria-label="Contact via WhatsApp">
+        <div class="absolute inset-0 bg-emerald-500/20 rounded-full animate-ping group-hover:animate-none"></div>
+        <div class="relative w-14 h-14 sm:w-16 sm:h-16 bg-[#031410] border border-emerald-500/30 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.2)] backdrop-blur-md hover:border-emerald-500 hover:scale-110 transition-all duration-300">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            <div class="absolute right-16 sm:right-20 bg-emerald-500 text-black text-[9px] font-bold font-mono px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap tracking-widest uppercase pointer-events-none">
+                Establish_Link
+            </div>
+        </div>
+    </a>
+
     <script>
-        // Track Mouse for Grid masking
+        // ── Loading screen ──
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading-screen').classList.add('fade-out');
+            }, 1000);
+        });
+
+        // ── Mobile nav ──
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu    = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('open');
+            mobileMenu.classList.toggle('open');
+        });
+
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('open');
+                mobileMenu.classList.remove('open');
+            });
+        });
+
+        // ── Mouse grid tracking ──
         document.addEventListener('mousemove', e => {
-            document.body.style.setProperty('--mx', (e.clientX / window.innerWidth * 100) + '%');
+            document.body.style.setProperty('--mx', (e.clientX / window.innerWidth  * 100) + '%');
             document.body.style.setProperty('--my', (e.clientY / window.innerHeight * 100) + '%');
         });
 
-        // ROI Chart Initialization
+        // ── ROI Chart ──
         const ctx = document.getElementById('roiChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: ['Leads', 'Support', 'Entry', 'Monitoring'],
-                datasets: [{
-                    label: 'Manual (H/Wk)',
-                    data: [20, 45, 15, 30],
-                    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                    borderWidth: 0
-                }, {
-                    label: 'Automated (H/Wk)',
-                    data: [2, 12, 1, 4],
-                    backgroundColor: '#10b981',
-                    borderWidth: 0
-                }]
+                datasets: [
+                    { label: 'Manual (H/Wk)',    data: [20, 45, 15, 30], backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: 0 },
+                    { label: 'Automated (H/Wk)', data: [2,  12, 1,  4 ], backgroundColor: '#10b981',               borderWidth: 0 }
+                ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
                     y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: 'rgba(255,255,255,0.2)' } },
-                    x: { grid: { display: false }, ticks: { color: 'rgba(255,255,255,0.2)' } }
+                    x: { grid: { display: false },                                      ticks: { color: 'rgba(255,255,255,0.2)' } }
                 },
                 plugins: {
                     legend: { labels: { color: 'rgba(255,255,255,0.5)', font: { size: 10, weight: 'bold' } } }
@@ -483,123 +599,97 @@
             }
         });
 
-        // Portfolio Data
+        // ── Portfolio Carousel ──
         const projects = [
-            { id: '01', type: 'AI', title: 'Nexus Agent', desc: 'Autonomous customer support system with document-based intelligence for fintech enterprises.' },
-            { id: '02', type: 'WEB', title: 'Lumina Commerce', desc: 'High-performance headless e-commerce architecture designed for sub-second load times.' },
-            { id: '03', type: 'AUTO', title: 'Workflow Flux', desc: 'Complex multi-platform automation handling thousands of leads with zero manual intervention.' },
-            { id: '04', type: 'DATA', title: 'Core Analytics', desc: 'Real-time business intelligence dashboard visualizing complex system logs in a readable format.' },
-            { id: '05', type: 'AI', title: 'Synth Vision', desc: 'Computer vision systems for industrial quality control using proprietary ML models.' },
-            { id: '06', type: 'CLOUD', title: 'Edge Node', desc: 'Globally distributed technical infrastructure for low-latency edge computing apps.' }
+            { id: '01', type: 'AI',    title: 'Nexus Agent',      desc: 'Autonomous customer support system with document-based intelligence for fintech enterprises.' },
+            { id: '02', type: 'WEB',   title: 'Lumina Commerce',  desc: 'High-performance headless e-commerce architecture designed for sub-second load times.' },
+            { id: '03', type: 'AUTO',  title: 'Workflow Flux',    desc: 'Complex multi-platform automation handling thousands of leads with zero manual intervention.' },
+            { id: '04', type: 'DATA',  title: 'Core Analytics',   desc: 'Real-time business intelligence dashboard visualizing complex system logs in a readable format.' },
+            { id: '05', type: 'AI',    title: 'Synth Vision',     desc: 'Computer vision systems for industrial quality control using proprietary ML models.' },
+            { id: '06', type: 'CLOUD', title: 'Edge Node',        desc: 'Globally distributed technical infrastructure for low-latency edge computing apps.' }
         ];
 
         let currentIndex = 0;
-        const container = document.getElementById('portfolio-carousel');
+        const carouselEl = document.getElementById('portfolio-carousel');
 
         function createCards() {
-            container.innerHTML = '';
-            projects.forEach((p, index) => {
+            carouselEl.innerHTML = '';
+            projects.forEach(p => {
                 const card = document.createElement('div');
                 card.className = 'project-card';
                 card.innerHTML = `
                     <div class="card-content">
-                        <div class="text-[10px] font-mono text-emerald-500/40 mb-6 uppercase tracking-widest">[ ${p.type} // SYS_${p.id} ]</div>
+                        <div class="text-[10px] font-mono text-emerald-500/40 mb-5 uppercase tracking-widest">[ ${p.type} // SYS_${p.id} ]</div>
                         <div class="card-avatar">
-                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                         </div>
-                        <h4 class="text-2xl font-bold mb-4 uppercase tracking-tight">${p.title}</h4>
-                        <p class="text-[10px] opacity-40 font-light leading-relaxed px-4">"${p.desc}"</p>
+                        <h4 class="text-xl font-bold mb-3 uppercase tracking-tight">${p.title}</h4>
+                        <p class="text-[10px] opacity-40 font-light leading-relaxed px-2">"${p.desc}"</p>
                     </div>
                     <div class="card-footer"><span class="text-[9px] font-mono tracking-[0.4em] uppercase opacity-60">SYSTEM_ACTIVE</span></div>
                 `;
-                container.appendChild(card);
+                carouselEl.appendChild(card);
             });
             updateCarousel();
         }
 
         function updateCarousel() {
-            const cards = container.querySelectorAll('.project-card');
+            const cards = carouselEl.querySelectorAll('.project-card');
             cards.forEach((card, i) => {
-                card.classList.remove('card-active', 'card-prev', 'card-next', 'card-far-prev', 'card-far-next', 'card-hidden');
-                if (i === currentIndex) card.classList.add('card-active');
+                card.classList.remove('card-active','card-prev','card-next','card-far-prev','card-far-next','card-hidden');
+                if      (i === currentIndex)     card.classList.add('card-active');
                 else if (i === currentIndex - 1) card.classList.add('card-prev');
                 else if (i === currentIndex + 1) card.classList.add('card-next');
                 else if (i === currentIndex - 2) card.classList.add('card-far-prev');
                 else if (i === currentIndex + 2) card.classList.add('card-far-next');
-                else card.classList.add('card-hidden');
+                else                             card.classList.add('card-hidden');
             });
         }
 
         document.getElementById('nextBtn').addEventListener('click', () => { if (currentIndex < projects.length - 1) { currentIndex++; updateCarousel(); } });
-        document.getElementById('prevBtn').addEventListener('click', () => { if (currentIndex > 0) { currentIndex--; updateCarousel(); } });
+        document.getElementById('prevBtn').addEventListener('click', () => { if (currentIndex > 0)                  { currentIndex--; updateCarousel(); } });
         createCards();
 
-        // Contact Form Logic
+        // ── Contact Form ──
         const contactForm = document.getElementById('contact-form');
-        const submitBtn = document.getElementById('submit-btn');
-        const btnText = document.getElementById('btn-text');
-        const btnLoader = document.getElementById('btn-loader');
-        const successMsg = document.getElementById('success-message');
+        const submitBtn   = document.getElementById('submit-btn');
+        const btnText     = document.getElementById('btn-text');
+        const btnLoader   = document.getElementById('btn-loader');
+        const successMsg  = document.getElementById('success-message');
 
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // UI Transition: Loading State
+
             submitBtn.disabled = true;
             btnText.textContent = 'TRANSMITTING...';
             btnLoader.classList.remove('hidden');
             submitBtn.classList.add('sending-shimmer');
 
-            // Simulate Network Latency
-            await new Promise(resolve => setTimeout(resolve, 2500));
+            try {
+                const response = await fetch(contactForm.action, {
+                    method: 'POST',
+                    body: new FormData(contactForm),
+                    headers: { 'Accept': 'application/json' }
+                });
 
-            // Success Transition
-            successMsg.classList.remove('pointer-events-none');
-            successMsg.classList.add('scale-100', 'opacity-100');
+                if (response.ok) {
+                    successMsg.classList.remove('pointer-events-none');
+                    successMsg.classList.add('scale-100', 'opacity-100');
+                } else {
+                    btnText.textContent = 'TRANSMISSION_FAILED';
+                    submitBtn.disabled = false;
+                    btnLoader.classList.add('hidden');
+                    submitBtn.classList.remove('sending-shimmer');
+                }
+            } catch {
+                btnText.textContent = 'NETWORK_ERROR';
+                submitBtn.disabled = false;
+                btnLoader.classList.add('hidden');
+                submitBtn.classList.remove('sending-shimmer');
+            }
         });
-        
-
-
-
-
-
-        contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    // UI Transition: Loading State
-    submitBtn.disabled = true;
-    btnText.textContent = 'TRANSMITTING...';
-    btnLoader.classList.remove('hidden');
-    submitBtn.classList.add('sending-shimmer');
-
-    // 1. Capture the data from your form
-    const data = new FormData(contactForm);
-
-    // 2. Send it to the email service
-    const response = await fetch(contactForm.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-    });
-
-    // 3. Check if it worked
-    if (response.ok) {
-        successMsg.classList.remove('pointer-events-none');
-        successMsg.classList.add('scale-100', 'opacity-100');
-    } else {
-        btnText.textContent = 'TRANSMISSION_FAILED';
-        submitBtn.disabled = false;
-        alert("Error: System unable to route packet.");
-    }
-});
-
-
-
-
-
 
         function resetForm() {
-            // Reset UI state
             successMsg.classList.add('pointer-events-none');
             successMsg.classList.remove('scale-100', 'opacity-100');
             submitBtn.disabled = false;
@@ -609,10 +699,11 @@
             contactForm.reset();
         }
 
-        // Reveal Animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-        }, { threshold: 0.1 });
+        // ── Reveal on scroll ──
+        const observer = new IntersectionObserver(
+            entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }),
+            { threshold: 0.1 }
+        );
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     </script>
 </body>
